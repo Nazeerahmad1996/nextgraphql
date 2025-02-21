@@ -1,0 +1,37 @@
+import { query } from '@/app/lib/db';
+
+export const getAllPayments = async () => {
+    try {
+        const res = await query(`
+            SELECT 
+              payments.*, 
+              bookings.id AS booking_id, 
+              bookings.status AS booking_status, 
+              bookings.total_price AS booking_total_price,
+              bookings.check_out AS booking_check_out,
+              bookings.check_in AS booking_check_in
+            FROM payments
+            JOIN bookings ON payments.booking_id = bookings.id
+        `);
+
+        if (res.rows.length === 0) return null;
+
+        return res.rows.map(payment => ({
+            ...payment,
+            booking: payment.booking_id
+                ? {
+                    id: payment.booking_id,
+                    total_price: payment.owner_name,
+                    check_out: payment.booking_check_out,
+                    check_in: payment.booking_check_in,
+                    status: payment.booking_status
+                }
+                : null
+        }));
+        return res.rows;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
