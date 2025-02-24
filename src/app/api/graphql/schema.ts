@@ -63,6 +63,11 @@ const typeDefs = gql`
     payments: [Payment]
     reviews: [Review]
     bookings: [Booking]
+    getBookingById(id: ID!): Booking!
+    getCustomerById(id: ID!): Customer!
+    getPaymentById(id: ID!): Payment!
+    getReviewById(id: ID!): Review!
+    getRoomById(id: ID!): Room!
   }
 
   type Mutation {

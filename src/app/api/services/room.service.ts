@@ -32,3 +32,40 @@ export const getAllRooms = async () => {
     }
 }
 
+export const getRoomById = async (id: number) => {
+    try {
+        if (!id) return null;
+        const res = await query(`
+            SELECT 
+              rooms.*, 
+              customers.id AS owner_id, 
+              customers.name AS owner_name, 
+              customers.email AS owner_email
+            FROM rooms
+            JOIN customers ON rooms.owner_id = customers.id
+            WHERE rooms.id = $1
+        `, [id]);
+
+        if (res.rows.length === 0) {
+            throw new Error(`room with ID ${id} not found`);
+        }
+
+        return res.rows[0]
+           ? {
+               ...res.rows[0],
+                owner: res.rows[0].owner_id
+                   ? {
+                        id: res.rows[0].owner_id,
+                        name: res.rows[0].owner_name,
+                        email: res.rows[0].owner_email,
+                    }
+                    : null
+            }
+            : null;
+
+    } catch (error) {
+        console.error("Error fetching room:", error);
+        throw new Error("Failed to fetch room");
+    }
+}
+

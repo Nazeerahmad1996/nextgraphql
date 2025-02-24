@@ -13,8 +13,11 @@ const resolvers = {
     ...reviewResolvers.Query
   },
   Mutation: {
-    // ...customerResolvers.Mutation,
-    // ...roomResolvers.Mutation,
+    ...customerResolvers.Mutation,
+    ...roomResolvers.Mutation,
+    ...bookingResolvers.Mutation,
+    ...paymentResolvers.Mutation,
+    ...reviewResolvers.Mutation,
   },
 };
 

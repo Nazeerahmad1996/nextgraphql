@@ -1,8 +1,9 @@
-import { getAllPayments } from "../../services/payment.service";
+import { getAllPayments, getPaymentById } from "../../services/payment.service";
 
 const customerResolver = {
     Query: {
-        payments: getAllPayments
+        payments: getAllPayments,
+        getPaymentById: (_parent: any, { id }: { id: number }) => getPaymentById(id)
     },
     Mutation: {
 

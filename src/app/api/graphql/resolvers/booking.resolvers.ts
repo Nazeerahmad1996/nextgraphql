@@ -1,8 +1,9 @@
-import { getAllBookings } from "../../services/booking.service";
+import { getAllBookings, getBookingById } from "../../services/booking.service";
 
 const customerResolver = {
     Query: {
-        bookings: getAllBookings
+        bookings: getAllBookings,
+        getBookingById: (_parent: any, { id }: { id: number }) => getBookingById(id)
     },
     Mutation: {
 

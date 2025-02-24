@@ -1,8 +1,9 @@
-import { getAllCustomers } from "../../services/customer.service";
+import { getAllCustomers, getCustomerById } from "../../services/customer.service";
 
 const customerResolver = {
     Query: {
-        customers: getAllCustomers
+        customers: getAllCustomers,
+        getCustomerById: (_parent: any, { id }: { id: number }) => getCustomerById(id)
     },
     Mutation: {
 
